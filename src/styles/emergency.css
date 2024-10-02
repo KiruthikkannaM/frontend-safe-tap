@@ -1,0 +1,86 @@
+.emergency-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    max-width: 500px;
+    margin: 20px auto;
+    font-family: 'Arial', sans-serif;
+}
+
+.emergency-container h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.authenticate-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.authenticate-btn:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: #dc3545;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.emergency-data {
+    margin-top: 20px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.emergency-data h2 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.emergency-data p {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.emergency-data strong {
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .emergency-container {
+        margin: 10px;
+        padding: 20px;
+    }
+}

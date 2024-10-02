@@ -1,5 +1,34 @@
-.button_style{
-    background-color: #D8D2C2;
-    
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 20px 0;
+}
 
+.button_style {
+    padding: 15px 30px;
+    margin: 0 10px;
+    font-size: 18px;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button_style:hover {
+    background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+    .buttons-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button_style {
+        width: 80%;
+        margin: 10px 0;
+    }
 }

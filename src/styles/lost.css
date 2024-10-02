@@ -1,0 +1,74 @@
+.lost-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    max-width: 500px;
+    margin: 20px auto;
+    font-family: 'Arial', sans-serif;
+}
+
+.lost-container h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.lost-info {
+    background-color: #e9ecef;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.lost-info p {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.lost-info strong {
+    color: #333;
+}
+
+.error-message {
+    color: #dc3545;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.search-form {
+    margin-top: 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.search-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.search-btn:hover {
+    background-color: #218838;
+}
+
+@media (max-width: 768px) {
+    .lost-container {
+        margin: 10px;
+        padding: 20px;
+    }
+}

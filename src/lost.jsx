@@ -1,145 +1,65 @@
-// // import React, { useState } from "react";
-// // import axios from "axios";
-
-// // function Lost() {
-// //   const [data, setData] = useState(null);
-// //   const [nfcId, setNfcId] = useState("");
-
-// //   const handleSearch = async () => {
-// //     console.log("Search button clicked. NFC ID entered:", nfcId);  // Check if this logs
-// //     try {
-// //       const response = await axios.get(`/loss`, {
-// //         params: { nfcid: nfcId },
-// //       });
-// //       console.log("API Response:", response.data);  // Log the API response
-// //       setData(response.data[0]);
-// //     } catch (error) {
-// //       console.error("Error fetching data:", error);
-// //     }
-// //   };
-  
-
-// //   return (
-// //     <div>
-// //       <h1>Lost Child Information</h1>
-// //       <input
-// //         type="text"
-// //         placeholder="Enter NFC ID"
-// //         value={nfcId}
-// //         onChange={(e) => setNfcId(e.target.value)}
-// //       />
-// //       <button onClick={handleSearch}>Search</button>
-
-// //       {data && (
-// //         <div>
-// //           <p>Name: {data.name}</p>
-// //           <p>Address: {data.address}</p>
-// //           <p>Age: {data.age}</p>
-// //           <p>Contact Info: {data.contact_info}</p>
-// //         </div>
-// //       )}
-// //     </div>
-// //   );
-// // }
-
-// // export default Lost;
-// import React, { useState } from "react";
-// import axios from "axios";
-
-// function Lost() {
-//   const [data, setData] = useState(null);
-//   const [nfcId, setNfcId] = useState("");
-//   const [error, setError] = useState("");
-
-//   const handleSearch = async () => {
-//     console.log("Search button clicked. NFC ID entered:", nfcId);
-//     try {
-//       const response = await axios.get(`http://localhost:3000/loss`, {
-//         params: { nfcid: nfcId },
-//       });
-//       console.log("API Response:", response.data);
-//       setData(Array.isArray(response.data) ? response.data[0] : response.data);
-//       setError("");
-//     } catch (error) {
-//       console.error("Error fetching data:", error);
-//       setData(null);
-//       setError(error.response?.data?.message || "An error occurred while fetching data.");
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <h1>Lost Child Information</h1>
-//       <input
-//         type="text"
-//         placeholder="Enter NFC ID"
-//         value={nfcId}
-//         onChange={(e) => setNfcId(e.target.value)}
-//       />
-//       <button onClick={handleSearch}>Search</button>
-
-//       {error && <p style={{ color: 'red' }}>{error}</p>}
-
-//       {data && (
-//         <div>
-//           <p>Name: {data.name || 'N/A'}</p>
-//           <p>Address: {data.address || 'N/A'}</p>
-//           <p>Age: {data.age || 'N/A'}</p>
-//           <p>Contact Info: {data.contact_info || 'N/A'}</p>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default Lost;
 import React, { useState } from "react";
-import axios from "axios";
+import { db } from './index'; // Import your Firestore configuration
+import { collection, query, where, getDocs } from "firebase/firestore"; // Import Firestore methods
 
 function Lost() {
-  const [data, setData] = useState(null);
-  const [nfcId, setNfcId] = useState("");
-  const [error, setError] = useState("");
+    const [data, setData] = useState(null); // Track the fetched data
+    const [nfcId, setNfcId] = useState(""); // Track the NFC ID input
+    const [error, setError] = useState(""); // Track error messages
 
-  const handleSearch = async () => {
-    console.log("Search button clicked. NFC ID entered:", nfcId);
-    try {
-      const response = await axios.get(`http://localhost:3000/loss`, {
-        params: { nfcid: nfcId },
-      });
-      console.log("API Response:", response.data);
-      setData(response.data);
-      setError("");
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setData(null);
-      setError(error.response?.data?.message || "An error occurred while fetching data.");
-    }
-  };
+    // Function to handle search by NFC ID
+    const handleSearch = async () => {
+        console.log("Search button clicked. NFC ID entered:", nfcId);
+        try {
+            // Create a query against the collection to find the matching NFC ID
+            const q = query(collection(db, "kids_details"), where("nfcid", "==", nfcId));
+            const querySnapshot = await getDocs(q); // Execute the query
 
-  return (
-    <div>
-      <h1>Lost Child Information</h1>
-      <input
-        type="text"
-        placeholder="Enter NFC ID"
-        value={nfcId}
-        onChange={(e) => setNfcId(e.target.value)}
-      />
-      <button onClick={handleSearch}>Search</button>
+            if (!querySnapshot.empty) {
+                // Assuming there's only one match, you can use `doc.data()` to set the data
+                const doc = querySnapshot.docs[0];
+                setData(doc.data()); // Set the data from the matched document
+                setError(""); // Clear any previous errors
+            } else {
+                setError("No such child found!"); // Show error if no document is found
+                setData(null); // Clear any previous data
+            }
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setData(null); // Clear any data if there's an error
+            setError("An error occurred while fetching data.");
+        }
+    };
 
-      {data && (
+    return (
         <div>
-          <p>Name: {data.name || 'N/A'}</p>
-          <p>Address: {data.address || 'N/A'}</p>
-          <p>Age: {data.age || 'N/A'}</p>
-          <p>Contact Info: {data.contact_info || 'N/A'}</p>
+            <h1>Lost Child Information</h1>
+            {/* Input field for NFC ID */}
+            <input
+                type="text"
+                placeholder="Enter NFC ID"
+                value={nfcId}
+                onChange={(e) => setNfcId(e.target.value)}
+            />
+            {/* Button to trigger search */}
+            <button onClick={handleSearch}>Search</button>
+
+            {/* Display error message, if any */}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+
+            {/* Display data if it exists */}
+            {data && (
+                <div>
+                    <p><strong>Name:</strong> {data.name || 'N/A'}</p>
+                    <p><strong>Address:</strong> {data.address || 'N/A'}</p>
+                    <p><strong>Father's Name:</strong> {data.father_name || 'N/A'}</p>
+                    <p><strong>Phone Number:</strong> {data.phone_number || 'N/A'}</p>
+                    <p><strong>Blood Group:</strong> {data.blood_group || 'N/A'}</p>
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 }
 
 export default Lost;
